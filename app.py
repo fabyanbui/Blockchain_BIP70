@@ -1,6 +1,7 @@
 import streamlit as st
 from blockchain import Blockchain
 from bip70 import PaymentRequest
+import time
 
 # Khởi tạo Blockchain
 if "blockchain" not in st.session_state:
@@ -112,10 +113,10 @@ if st.session_state.payment_ack:
 # ============================
 st.header("📜 Chuỗi Blockchain")
 for i, block in enumerate(blockchain.get_chain(), start=1):
-    block_data = block.copy()  # Tạo bản sao để chỉnh sửa mà không ảnh hưởng đến dữ liệu gốc
-    block_data.pop("index", None)  # Xóa 'index' nếu có
-    
-    with st.expander(f"🧱 Block {i}"):
-        st.code(block_data, language="json")
-
+    with st.expander(f"🧱 Block #{i}"):
+        st.write(f"📅 **Thời gian:** {time.ctime(block['timestamp'])}")
+        st.write(f"🔗 **Hash:** {block['hash']}")
+        st.write(f"🔗 **Previous Hash:** {block['previous_hash']}")
+        st.write(f"📜 **Transactions:** {block['transactions']}")
+        st.write(f"⚡ **Nonce:** {block['nonce']}")
 
